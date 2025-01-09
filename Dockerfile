@@ -1,24 +1,48 @@
-# Use an official Node.js image as the base image
-FROM node:18
+# Use Ubuntu 22.04 as the base image
+FROM ubuntu:22.04
 
-# Set the working directory inside the container
-WORKDIR /usr/src/app
+# Set environment to avoid interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Copy the package.json and package-lock.json (if you have one) into the container
-COPY package*.json ./
+# Install necessary packages: git, curl, and Node.js
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    gnupg \
+    build-essential \
+    git \
+    nano \
+    && apt-get clean
 
-# Install the dependencies
+# Install Node.js 22.x
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+RUN apt-get install -y nodejs
+
+RUN node -v && npm -v
+
+# Install PM2 globally
+RUN npm install -g pm2
+
+# Create a non-root user named 'docker' with sudo access
+RUN useradd -ms /bin/bash docker \
+    && echo "docker:docker" | chpasswd \
+    && usermod -aG sudo docker
+
+# Switch to the 'docker' user
+USER docker
+
+# Set working directory
+WORKDIR /home/docker
+
+# Clone the repository
+RUN git clone https://github.com/Richieleonardo/chat-TST
+
+# Install the app dependencies
+WORKDIR /home/docker/chat-TST
 RUN npm install
 
-# Copy the rest of your application files into the container
-COPY . .
-
 # Expose the port your app is listening on
-EXPOSE 3000
+EXPOSE 8072
 
-# Set the environment variable to switch between dev and prod
-ENV NODE_ENV=production
-
-# Command to start the app in production
-CMD ["npm", "start"]
-
+# Command to start the app using PM2
+CMD ["pm2-runtime", "start", "app.js"]
