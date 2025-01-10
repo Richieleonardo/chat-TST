@@ -1,0 +1,74 @@
+asyncapi: '2.6.0'
+info:
+  title: Chat Service
+  version: '1.0.0'
+  description: |
+    This is the AsyncAPI documentation for a Socket.IO-based chat service. 
+    It handles real-time messaging between clients.
+  contact:
+    name: Richie Leonardo
+    email: 18222071@std.stei.itb.ac.id
+servers:
+  websocketServer:
+    url: https://chat-tst-production.up.railway.app
+    protocol: wss
+    description: Production WebSocket server
+channels:
+  /connection:
+    description: Channel for establishing a connection.
+    subscribe:
+      summary: Triggered when a client connects.
+      message:
+        name: userConnected
+        summary: User connection event
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "user connected"
+  /set-id:
+    description: Assigns a user to a room.
+    subscribe:
+      summary: Event for joining a room.
+      message:
+        name: setRoomID
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            roomID:
+              type: string
+              description: The ID of the room to join.
+              example: "chat-room-123"
+  /send-message:
+    description: Sends a message to a specific room.
+    publish:
+      summary: Event for sending a message.
+      message:
+        name: sendMessage
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            message:
+              type: string
+              description: The message to send.
+              example: "Hello, World!"
+            storedID:
+              type: string
+              description: The ID of the target room.
+              example: "chat-room-123"
+    subscribe:
+      summary: Event for receiving a message.
+      message:
+        name: receiveMessage
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            message:
+              type: string
+              description: The message received.
+              example: "Hello, World!"
