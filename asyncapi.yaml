@@ -72,7 +72,7 @@ channels:
               type: string
               description: The message received.
               example: "Hello, World!"
-    /recieve-message:
+  /recieve-message:
     description: Triggered when a client receives a message.
     subscribe:
       summary: Event for receiving a message from a specific room.
