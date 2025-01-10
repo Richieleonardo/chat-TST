@@ -11,7 +11,7 @@ const io = new Server(httpServer, {
     }
 });
 
-app.use('/docs', express.static(path.join(__dirname, 'output')));
+app.use('/docs', express.static(path.join(__dirname, 'docs')));
 
 // //admin-ui
 // instrument(io, { auth: false });
@@ -31,6 +31,6 @@ io.on('connection', socket => {
 });
 
 //Start server
-const PORT = 8075;
+const PORT = 8072;
 httpServer.listen(PORT, () => {
     console.log(`Server is running on on port ${PORT}`);});
