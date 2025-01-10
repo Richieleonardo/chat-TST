@@ -72,3 +72,17 @@ channels:
               type: string
               description: The message received.
               example: "Hello, World!"
+    /recieve-message:
+    description: Triggered when a client receives a message.
+    subscribe:
+      summary: Event for receiving a message from a specific room.
+      message:
+        name: receiveMessage
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            message:
+              type: string
+              description: The message received.
+              example: "Hello, World!"

@@ -1,6 +1,7 @@
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
+const path = require('path');
 
 const app = express();
 const httpServer = createServer(app);
@@ -9,6 +10,8 @@ const io = new Server(httpServer, {
         origin: '*',
     }
 });
+
+app.use('/docs', express.static(path.join(__dirname, 'output')));
 
 // //admin-ui
 // instrument(io, { auth: false });
@@ -28,6 +31,6 @@ io.on('connection', socket => {
 });
 
 //Start server
-const PORT = 8072;
+const PORT = 8075;
 httpServer.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);});
+    console.log(`Server is running on on port ${PORT}`);});
