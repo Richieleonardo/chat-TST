@@ -6,6 +6,12 @@ Repository untuk **Tugas Besar Matakuliah II3160 Teknologi Sistem Terintegrasi**
 **18222071**
 
 ---
+## Dokumentasi API
+
+Aplikasi ini mencakup dokumentasi event name lengkap yang dapat diakses di:
+[https://chat-tst-production.up.railway.app/docs](https://chat-tst-production.up.railway.app/docs)
+
+---
 
 ## Struktur File
 
